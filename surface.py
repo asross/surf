@@ -82,7 +82,7 @@ class Surface():
   first_fun_form = metric_tensor
   second_fun_form = shape_tensor
 
-  def plot(self, show='area', grid=None, over=[], ax=None):
+  def plot(self, show='area_element', grid=None, over=[], ax=None):
     if grid is None:
       if len(over) == 3:
         ulims, vlims, res = over
@@ -109,7 +109,7 @@ class Surface():
       m.set_array([])
       plt.colorbar(m, label=show)
 
-    if show == 'area':
+    if show in ['area_element', 'dA']:
       detg = self.area_element(X).reshape(list(U.shape))
       colorplot(detg)
     elif show == 'normal':

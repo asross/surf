@@ -4,20 +4,28 @@ from mpl_toolkits.mplot3d import Axes3D
 import autograd.numpy as np
 from autograd import elementwise_grad
 
+def _flt(X):
+  if isinstance(X, np.ndarray):
+    return X.astype(float)
+  elif isinstance(X, list):
+    return np.array(X).astype(float)
+  else:
+    return X
+
 class Surface():
   def __init__(self, f, normal_direction=-1.0):
-    self.f = f
+    self.f = lambda x: f(_flt(x))
     self.normdir = normal_direction
 
   def jacobian(self, X):
     return np.array([
-      elementwise_grad(lambda x: self.f(x)[i])(X)
+      elementwise_grad(lambda x: self.f(x)[i])(_flt(X))
       for i in range(3)
     ])
 
   def hessian(self, X):
     return np.array([
-      [elementwise_grad(lambda x: self.jacobian(x)[i][j])(X)
+      [elementwise_grad(lambda x: self.jacobian(x)[i][j])(_flt(X))
       for j in range(2)]
       for i in range(3)
     ])

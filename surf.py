@@ -77,12 +77,13 @@ class Surface():
     h = self.weingarten_map(X, roll=False)
     return np.trace(h, axis1=1, axis2=2)
 
+  dA = area_element
   K = gauss_curvature
   H = mean_curvature
   first_fun_form = metric_tensor
   second_fun_form = shape_tensor
 
-  def plot(self, show='area_element', grid=None, over=[], ax=None):
+  def plot(self, show='area_element', grid=None, over=[], ax=None, cb=True, title=True):
     if grid is None:
       if len(over) == 3:
         ulims, vlims, res = over
@@ -105,9 +106,10 @@ class Surface():
       vlim = max(vlim, 1e-8)
       norm = mpl.colors.Normalize(vmin=-vlim, vmax=vlim)
       ax.plot_surface(*F,facecolors=cmap(norm(colors)))
-      m = mpl.cm.ScalarMappable(cmap=cmap, norm=norm)
-      m.set_array([])
-      plt.colorbar(m, label=show)
+      if cb:
+        m = mpl.cm.ScalarMappable(cmap=cmap, norm=norm)
+        m.set_array([])
+        plt.colorbar(m, label=show)
 
     if show in ['area_element', 'dA']:
       detg = self.area_element(X).reshape(list(U.shape))
@@ -126,4 +128,5 @@ class Surface():
       ax.plot_wireframe(*F)
 
     plt.axis('equal')
-    plt.title(show or 'surface')
+    if title:
+      plt.title(show or 'surface')

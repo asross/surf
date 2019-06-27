@@ -1,5 +1,7 @@
 # Surf
 
+![demo](./demo.png)
+
 This is a small library I wrote to visualize 2D manifolds in 3D space, along with associated quantities (like their curvature or the areas of their surface elements) -- partially because it's cool, and partially to check homework :)
 
 For a visual demo, check out [the notebook](./demo.ipynb).
